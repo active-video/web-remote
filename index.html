@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/styles.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>CloudTV Web Remote</title>
+
+</head>
+
+
+<body>
+<div class="panel">
+    <!-- Nav tabs -->
+    <ul id="nav" class="nav nav-tabs ">
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#voice" role="tab">Voice</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#remote" role="tab">Remote</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
+        </li>
+    </ul>
+    <!-- Tab panels -->
+    <div class="tab-content card">
+        <!--Panel 1-->
+        <div class="tab-pane fade" id="voice" role="tabpanel">
+            <p>
+                @TODO hook this up, for now just type text and hit SEND
+
+                <form class="voice-to-text" onsubmit="remote.sendMessage({type: 'message', message:$('.spoken-text').val()}); return false;">
+
+                <input type="text" class="spoken-text form-control" placeholder="Message will appear here"
+                       autocomplete="off"/>
+                <input type="submit" class="btn btn-primary" value="Send"/>
+
+
+                </form>
+            </p>
+        </div>
+        <!--/.Panel 1-->
+        <!--Panel 2-->
+        <div class="tab-pane fade container-fluid" id="remote" role="tabpanel">
+
+            <table class="remote-buttons">
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <div tabindex="1" data-value="38" class="polygon">
+                            <!-- up -->
+                            <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <polygon points="50 0,100 100,0 100" opacity="1"></polygon>
+                            </svg>
+                        </div>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div tabindex="2" data-value="37" class="polygon">
+                            <!-- left -->
+                            <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <polygon points="0 50,100 0,100 100" opacity="1"></polygon>
+                            </svg>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div tabindex="3" data-value="13" class="polygon">
+                            <!-- OK -->
+                            <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <polygon points="0 0,100 0,100 100,0 100,0 0" opacity="1"></polygon>
+                            </svg>
+                        </div>
+                    </td>
+                    <td>
+                        <div tabindex="4" data-value="39" class="polygon">
+                            <!-- right -->
+                            <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <polygon points="0 0,100 50,0 100" opacity="1"></polygon>
+                            </svg>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div tabindex="3" data-value="8" class="polygon">
+                            <!-- OK -->
+                            <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <polygon points="25 0,75 0,75 75,25 75,25 0" opacity="1"></polygon>
+                                <text x="30" y="40" width="50" height="50">BACK</text>
+                            </svg>
+                        </div>
+                    </td>
+                    <td>
+                        <div tabindex="5" data-value="40" class="polygon">
+                            <!-- down -->
+                            <svg preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <polygon points="0 0,100 0,50 100" opacity="1"></polygon>
+                            </svg>
+                        </div>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+        <!--/.Panel 2-->
+        <!--Panel 3-->
+        <div class="tab-pane fade" id="settings" role="tabpanel">
+
+
+            <form onsubmit="remote.addDevice($('#deviceAdd').val()); return false;">
+                <ul class="list-group">
+                    <li><input type="text" id="deviceAdd" class="form-control" placeholder="CloudTV Device Id"
+                               autocomplete="off"/>
+                        <input type="submit" class="btn btn-primary" value="Add/Connect"/>
+                    </li>
+                </ul>
+            </form>
+
+
+            <ul id="device-list" class="list-group"></ul>
+        </div>
+        <!--/.Panel 3-->
+    </div>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+
+<script src="index.js"></script>
+
+</body>
+</html>

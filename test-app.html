@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+    <style>
+        div {
+            white-space: nowrap;
+        }
+    </style>
+    <script type="text/javascript">
+      navigator.avClient = { id: 'shared' };
+      var src = '//' + location.hostname + ':8081/client';
+      document.write('<scr' + 'ipt src="' + src +'"></scr' + 'ipt>');
+    </script>
+
+
+</head>
+
+<body>
+
+</body>
+
+<script>
+  var content = document.createDocumentFragment();
+  for (var i = 0; i < 100; i++) {
+    var row = document.createElement('div');
+    var text = 'Row ' + i + ': ';
+
+    for (var j = 0; j < 100; j++) {
+      text += ' ' + j;
+    }
+    row.appendChild(document.createTextNode(text));
+    content.appendChild(row);
+  }
+
+
+  document.body.appendChild(content);
+</script>
+
+
+</html>

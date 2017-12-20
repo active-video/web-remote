@@ -1,0 +1,58 @@
+.tab-content {
+    height: 90vh;
+}
+
+#device-list li {
+    margin-bottom: 10px;
+}
+#device-list a,
+#settings form input{
+    display: inline-block;
+    width: 30%;
+}
+#device-list a:first-child,
+#settings form input:first-child{
+    width: 64%;
+    margin-right: 4%;
+}
+
+#remote table {
+    width: 100%;
+}
+
+#remote table td {
+    width: 33%;
+    text-align: center;
+}
+
+#remote div {
+    height: 30vh;
+    overflow: hidden;
+    outline: 0;
+
+}
+
+
+.polygon {
+    padding: 3px;
+}
+.polygon svg {
+    width: 100%;
+    height: 100%;
+}
+.polygon svg polygon {
+    fill: #0275d8;
+}
+
+.polygon:active svg polygon {
+    opacity: 0.8;
+}
+
+#settings form {
+    overflow: hidden;
+    white-space: nowrap;
+}
+.card {
+    border-width: 0;
+    padding: 1%;
+}
