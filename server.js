@@ -5,8 +5,9 @@ if(process.argv.indexOf('-p') === -1) {
 }
 console.log('process.argv %s', process.argv);
 
-var app = require('./node_modules/cloudtv-remote-proxy/server.js');
-var express = require('express');
+const app = require('./node_modules/cloudtv-remote-proxy/server.js');
+const express = require('express');
+
 
 
 app.use('/web-remote', express.static('./'))

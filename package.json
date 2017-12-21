@@ -3,6 +3,7 @@
   "version": "0.1.2",
   "license": "NONE",
   "engines": {},
+  "main": "server.js",
   "scripts": {
     "start": "concurrently --kill-others \"npm run website\" \"npm run service\"",
     "dev": "concurrently --kill-others \"npm run dev-website\" \"npm run service\"",
