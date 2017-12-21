@@ -12,7 +12,9 @@
     <title>CloudTV Web Remote</title>
     <link rel="icon"
           type="image/png"
-          href="/web-remote/assets/favicon.png">
+          href="assets/favicon.png">
+
+    <script src="assets/artyom.window.min.js"></script>
 
 
 </head>
@@ -41,9 +43,12 @@
 
                 <form class="voice-to-text" onsubmit="remote.sendMessage({type: 'message', message:$('.spoken-text').val()}); return false;">
 
-                <input type="text" class="spoken-text form-control" placeholder="Message will appear here"
+                <input type="text" class="spoken-text form-control" placeholder="Voice Command"
                        autocomplete="off"/>
-                <input type="submit" class="btn btn-primary" value="Send"/>
+                <input id="submit-text" type="submit" class="btn btn-primary w-20" value="Send"/>
+
+                <button id="microphone" class="btn" value="Microphone" onclick="remote.listen();" disabled>SPEAK (not yet available)</button>
+
 
 
                 </form>

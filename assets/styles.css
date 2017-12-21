@@ -56,3 +56,15 @@
     border-width: 0;
     padding: 1%;
 }
+
+
+/* Voice */
+
+#microphone {
+    display: block;
+    width: 60%;
+    height: 50vh;
+    margin: 0 auto;
+    clear: both;
+    background: #0275d8;
+}
