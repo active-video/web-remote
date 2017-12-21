@@ -75,7 +75,7 @@ REMOTE.prototype = {
       //load web remote service
       navigator.avClient = { id: this.activeDevice };
       var role = location.href.indexOf('role') !== -1 ? 'client' : 'remote';
-      document.write('<scr' + 'ipt src="//' + location.hostname + ':8081/' + role + '"></scr' + 'ipt>');
+      document.write('<scr' + 'ipt src="//' + location.host + '/' + role + '"></scr' + 'ipt>');
     }
 
 

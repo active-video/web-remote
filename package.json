@@ -1,12 +1,8 @@
 {
   "name": "cloudtv-web-remote",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "NONE",
-
-  "engines": {
-    "node": ">=8.9.3"
-  },
-
+  "engines": {},
   "scripts": {
     "start": "concurrently --kill-others \"npm run website\" \"npm run service\"",
     "dev": "concurrently --kill-others \"npm run dev-website\" \"npm run service\"",
@@ -15,8 +11,9 @@
     "service": "node node_modules/cloudtv-remote-proxy/index.js -p 8081"
   },
   "dependencies": {
-    "cloudtv-remote-proxy": "^1.3.3",
-    "http-server": "^0.10.0",
-    "concurrently": "^3.5.1"
+    "cloudtv-remote-proxy": "^1.3.5",
+    "concurrently": "^3.5.1",
+    "express": "^4.16.2",
+    "http-server": "^0.10.0"
   }
 }
