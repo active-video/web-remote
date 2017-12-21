@@ -1,6 +1,6 @@
 {
   "name": "cloudtv-web-remote",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "NONE",
 
   "engines": {
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "cloudtv-remote-proxy": "^1.3.3",
-    "http-server": "^0.10.0"
+    "http-server": "^0.10.0",
     "concurrently": "^3.5.1"
   }
 }
