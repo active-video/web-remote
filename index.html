@@ -14,8 +14,6 @@
           type="image/png"
           href="assets/favicon.png">
 
-    <script src="assets/artyom.window.min.js"></script>
-
 
 </head>
 
@@ -41,18 +39,20 @@
             <p>
                 @TODO hook this up, for now just type text and hit SEND
 
-                <form class="voice-to-text" onsubmit="remote.sendMessage({type: 'message', message:$('.spoken-text').val()}); return false;">
+                <form class="voice-to-text" onsubmit="return false;">
 
                 <input type="text" class="spoken-text form-control" placeholder="Voice Command"
+                       onchange="remote.sendMessage({type: 'message', message: this.value});"
                        autocomplete="off"/>
                 <input id="submit-text" type="submit" class="btn btn-primary w-20" value="Send"/>
 
-                <button id="microphone" class="btn" value="Microphone" onclick="remote.listen();" disabled>SPEAK (not yet available)</button>
-
-
+                <button id="microphone" class="btn" value="Microphone" onclick="remote.listen();" >CLICK to SPEAK</button>
 
                 </form>
             </p>
+            <div>
+                <p id="spokenText"></p>
+            </div>
         </div>
         <!--/.Panel 1-->
         <!--Panel 2-->

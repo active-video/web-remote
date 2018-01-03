@@ -11,6 +11,8 @@
       this.loadDevices();
       this.activateRemote();
       this.activateVoice();
+
+      this.spokenText = document.querySelector('#spokenText');
     },
 
     loadDevices: function () {
@@ -92,18 +94,79 @@
         return;
       }
 
-
-      if (artyom.recognizingSupported()) {
-        //$('#submit-text').hide();
+      if (window.webkitSpeechRecognition) {
         console.log('voice supported');
 
       } else {
-        $('#microphone').hide();
+        ('#microphone').hide();
         console.warn('voice NOT supported');
       }
     },
 
     listen: function(){
+      if(!recognition && window.webkitSpeechRecognition) {
+        recognition = window.recognition = new webkitSpeechRecognition();
+        //$('#submit-text').hide();
+
+        recognition.interimResults = true;
+        recognition.continuous = false;
+        recognition.addEventListener('response', this.onSpeech.bind(this));
+        recognition.addEventListener('error', this.onSpeechError.bind(this));
+
+
+        recognition.onresult = this.onSpeechEvent.bind(this);
+        recognition.onspeechstart = this.onSpeechEvent.bind(this);
+        recognition.onspeechend = this.onSpeechEvent.bind(this);
+        recognition.onerror = this.onSpeechEvent.bind(this);
+      }
+
+      this.updateText('');
+      recognition.start();
+    },
+
+    stopListening: function(){
+      if(recognition){
+        recognition.stop();
+      }
+    },
+
+    updateText: function(text, override) {
+      if(override) {
+        this.spokenText.textContent = text;
+      } else {
+        this.spokenText.textContent += text;
+      }
+    },
+
+    onSpeechEvent: function(evt){
+        console.log("Speech Event: " + evt.type, evt);
+    },
+
+    onSpeechError: function(evt) {
+      if(evt.error === 'network') {
+        this.spokenText.textContent = 'Sorry, but a network connection is required for VOICE support';
+      }
+    },
+
+    onSpeechRecognized: function(text){
+      this.updateText(text, true); //override text value
+      remote.sendMessage({type: 'message', message: text});
+      // this.stopListening();
+    },
+
+    onSpeech: function(evt) {
+      console.log("onSpeech", evt.type, evt);
+
+      for(var i= evt.resultIndex; i < evt.results.length; i++) {
+        if(evt.results[i].isFinal) {
+          this.onSpeechRecognized(evt.results[i][0].transcript);
+          return;
+
+        } else {
+          this.updateText(evt.results[i][0].transcript, false);
+        }
+      }
+
 
     },
 
@@ -173,8 +236,7 @@
 
   };
 
-
-  var artyom = window.artyom = new Artyom();
+  var recognition;
   var remote =  window.remote = new REMOTE();
 
   $(document)
