@@ -11,3 +11,13 @@ const express = require('express');
 
 
 app.use('/web-remote', express.static('./'))
+
+
+app.get('/env', function(req, res){
+  res.writeHeader('200', {
+    'content-type' : 'application/json',
+    'cache-control': 'max-age=1'
+  });
+
+  res.end(JSON.stringify(process.env, '', '\t'));
+});
