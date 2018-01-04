@@ -4,7 +4,13 @@
   };
   REMOTE.prototype = {
     devices: null,
+    listening: false,
     init: function () {
+      this.spokenText = document.querySelector('#spokenText');
+      this.microphone = document.querySelector('#microphone');
+      this.alternateMicrophone = document.querySelector('#alternate-microphone')
+
+
       this.bootstrap = this.bootstrap.bind(this);
       window.onmessage = this.onMessage.bind(this);
 
@@ -12,7 +18,6 @@
       this.activateRemote();
       this.activateVoice();
 
-      this.spokenText = document.querySelector('#spokenText');
     },
 
     loadDevices: function () {
@@ -98,7 +103,8 @@
         console.log('voice supported');
 
       } else {
-        ('#microphone').hide();
+        this.microphone.classList.add('hide');
+        this.alternateMicrophone.classList.remove('hide');
         console.warn('voice NOT supported');
       }
     },
@@ -110,8 +116,9 @@
 
         recognition.interimResults = true;
         recognition.continuous = false;
-        recognition.addEventListener('response', this.onSpeech.bind(this));
+        recognition.addEventListener('result', this.onSpeech.bind(this));
         recognition.addEventListener('error', this.onSpeechError.bind(this));
+        recognition.addEventListener('speechend', this.onSpeechEnd.bind(this));
 
 
         recognition.onresult = this.onSpeechEvent.bind(this);
@@ -120,14 +127,22 @@
         recognition.onerror = this.onSpeechEvent.bind(this);
       }
 
-      this.updateText('');
-      recognition.start();
+      if(this.listening) {
+        this.stopListening();
+      } else {
+        this.listening = true;
+        this.updateText('');
+        this.microphone.classList.add('active');
+        recognition.start();
+      }
     },
 
     stopListening: function(){
       if(recognition){
         recognition.stop();
       }
+      this.listening = false;
+      this.microphone.classList.remove('active');
     },
 
     updateText: function(text, override) {
@@ -151,11 +166,14 @@
     onSpeechRecognized: function(text){
       this.updateText(text, true); //override text value
       remote.sendMessage({type: 'message', message: text});
+      setTimeout(this.updateText.bind(this, '', true), 1000);
       // this.stopListening();
     },
 
     onSpeech: function(evt) {
       console.log("onSpeech", evt.type, evt);
+
+      var text = '';
 
       for(var i= evt.resultIndex; i < evt.results.length; i++) {
         if(evt.results[i].isFinal) {
@@ -163,11 +181,23 @@
           return;
 
         } else {
-          this.updateText(evt.results[i][0].transcript, false);
+          text += evt.results[i][0].transcript
         }
       }
 
+      this.updateText(text, true);
 
+
+    },
+
+    onSpeechBegin: function(){
+      this.listening = false;
+      this.microphone.classList.add('active');
+    },
+
+    onSpeechEnd: function(){
+      this.listening = false;
+      this.microphone.classList.remove('active');
     },
 
     populateDeviceList: function () {

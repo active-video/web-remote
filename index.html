@@ -37,18 +37,16 @@
         <!--Panel 1-->
         <div class="tab-pane fade" id="voice" role="tabpanel">
             <p>
-                @TODO hook this up, for now just type text and hit SEND
+                <form id="alternate-microphone" class="voice-to-text hide" onsubmit="return false;">
 
-                <form class="voice-to-text" onsubmit="return false;">
-
-                <input type="text" class="spoken-text form-control" placeholder="Voice Command"
+                    <input type="text" class="spoken-text form-control" placeholder="Voice Command"
                        onchange="remote.sendMessage({type: 'message', message: this.value});"
                        autocomplete="off"/>
-                <input id="submit-text" type="submit" class="btn btn-primary w-20" value="Send"/>
-
-                <button id="microphone" class="btn" value="Microphone" onclick="remote.listen();" >CLICK to SPEAK</button>
-
+                    <input id="submit-text" type="submit" class="btn btn-primary w-20" value="Send"/>
                 </form>
+
+                <button id="microphone" class="btn" value="Microphone" onclick="remote.listen();" ></button>
+
             </p>
             <div>
                 <p id="spokenText"></p>

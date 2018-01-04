@@ -56,15 +56,40 @@
     border-width: 0;
     padding: 1%;
 }
+.hide {
+    display: none;
+}
 
 
 /* Voice */
 
 #microphone {
     display: block;
-    width: 60%;
-    height: 50vh;
+    width: 90%;
+    height: 70vh;
     margin: 0 auto;
     clear: both;
-    background: #0275d8;
+    -webkit-mask-image: url("microphone.svg");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: 50% 50%;
+    -webkit-mask-size: contain;
+    background-color: black;
+}
+
+#microphone.active {
+    animation: color-pulsate 2s infinite linear;
+}
+
+
+@-webkit-keyframes color-pulsate {
+    0% {background-color: black;}
+    25% {background-color: darkgreen;}
+    100% {background-color: black;}
+}
+
+#spokenText {
+    font-size: 3vh;
+    text-align: center;
+    line-height: 1;
+    padding: 0 3vw;
 }
