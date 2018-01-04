@@ -1,23 +1,40 @@
 //Add in the default port 8080 if none in arguments
-if(process.argv.indexOf('-p') === -1) {
-  process.argv.push('-p');
-  process.argv.push('80');
+
+const express = require('express');
+const fs = require('fs');
+
+var sslOptions;
+
+//Setup SSL certificate
+try {
+  sslOptions = {
+    key: fs.readFileSync('./ssl/webremote.key'),
+    cert: fs.readFileSync('./ssl/webremote.cert')
+  };
+} catch (errorFallbackHttp) {}
+
+if(sslOptions && !process.env.SSL_KEY) {
+  process.env.SSL_KEY = sslOptions.key;
 }
-console.log('process.argv %s', process.argv);
+if(sslOptions && !process.env.SSL_CERT) {
+  process.env.SSL_CERT = sslOptions.cert;
+}
+
+console.log('PORT: %d', process.env.PORT);
+
+if (!process.env.PORT) {
+  process.env.PORT = 80;
+}
 
 const app = require('./node_modules/cloudtv-remote-proxy/server.js');
-const express = require('express');
+app.use('/web-remote', express.static('./'));
 
 
-
-app.use('/web-remote', express.static('./'))
-
-
-app.get('/env', function(req, res){
+/*app.get('/env', function(req, res){
   res.writeHeader('200', {
     'content-type' : 'application/json',
     'cache-control': 'max-age=1'
   });
 
   res.end(JSON.stringify(process.env, '', '\t'));
-});
+});*/

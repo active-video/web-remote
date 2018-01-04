@@ -5,12 +5,14 @@
   "engines": {},
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js -p 8080"
+    "start": "node $NODE_DEBUG_OPTION server.js",
+    "dev": "cross-env PORT=8080 node $NODE_DEBUG_OPTION server.js",
+    "devsecure": "cross-env PORT=4443 node $NODE_DEBUG_OPTION server.js"
   },
   "dependencies": {
-    "cloudtv-remote-proxy": "^1.3.8",
+    "cloudtv-remote-proxy": "^1.3.14",
     "concurrently": "^3.5.1",
+    "cross-env": "^5.1.3",
     "express": "^4.16.2"
   }
 }

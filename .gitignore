@@ -2,3 +2,5 @@
 node_modules
 /.openode
 /app.yaml
+cert/webremote.key
+cert/webremote.cert
