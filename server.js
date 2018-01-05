@@ -30,11 +30,11 @@ const app = require('./node_modules/cloudtv-remote-proxy/server.js');
 app.use('/web-remote', express.static('./'));
 
 
-/*app.get('/env', function(req, res){
+app.get('/env', function(req, res){
   res.writeHeader('200', {
     'content-type' : 'application/json',
     'cache-control': 'max-age=1'
   });
 
   res.end(JSON.stringify(process.env, '', '\t'));
-});*/
+});
