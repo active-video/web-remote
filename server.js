@@ -22,11 +22,18 @@ if (sslOptions && !process.env.SSL_CERT) {
   process.env.SSL_CERT = sslOptions.cert;
 }
 
+//Some hosts like openode don't let you override PORT env var, so added SSL_PORT as alternate
+if(process.env.SSL_PORT) {
+  process.env.PORT = process.env.SSL_PORT;
+}
+
 console.log('PORT: %d', process.env.PORT);
 
 if (!process.env.PORT) {
+  console.log("Defaulting to port 80")
   process.env.PORT = 80;
 }
+console.log('PORT: %d', process.env.PORT);
 
 const app = require('./node_modules/cloudtv-remote-proxy/server.js');
 app.use('/web-remote', express.static('./'));
@@ -41,11 +48,15 @@ app.get('/env', function (req, res) {
   res.end(JSON.stringify(process.env, '', '\t'));
 });
 
+function redirect(req, res){
+  res.writeHead(302, {
+    'Location': 'https://' + process.env.HOSTNAME + ':' + process.env.PORT + req.url
+  });
+  res.end();
+}
+
 if (sslOptions) {
-  http.createServer((req, res) => {
-    res.writeHead(302, {
-      'Location': 'https://' + process.env.HOSTNAME + ':' + process.env.PORT + req.url
-    });
-    res.end();
-  }).listen(process.env.ALTERNATE_PORT || 80);
+  var altPort = process.env.ALTERNATE_PORT || 80;
+  console.log("Starting up redirect on port: " + altPort);
+  http.createServer(redirect).listen(altPort);
 }
