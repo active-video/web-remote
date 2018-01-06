@@ -25,9 +25,10 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#voice" role="tab">Voice</a>
         </li>
-        <li class="nav-item">
+        <!--<li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#remote" role="tab">Remote</a>
         </li>
+        -->
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
         </li>
@@ -54,14 +55,13 @@
         </div>
         <!--/.Panel 1-->
         <!--Panel 2-->
-        <div class="tab-pane fade container-fluid" id="remote" role="tabpanel">
+        <!-- <div class="tab-pane fade container-fluid" id="remote" role="tabpanel">
 
             <table class="remote-buttons">
                 <tr>
                     <td>&nbsp;</td>
                     <td>
-                        <div tabindex="1" data-value="38" class="polygon">
-                            <!-- up -->
+                        <div tabindex="1" data-value="38" data-role="UP" class="polygon">
                             <svg preserveAspectRatio="none" viewBox="0 0 100 100">
                                 <polygon points="50 0,100 100,0 100" opacity="1"></polygon>
                             </svg>
@@ -71,8 +71,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <div tabindex="2" data-value="37" class="polygon">
-                            <!-- left -->
+                        <div tabindex="2" data-value="37" data-role="LEFT" class="polygon">
                             <svg preserveAspectRatio="none" viewBox="0 0 100 100">
                                 <polygon points="0 50,100 0,100 100" opacity="1"></polygon>
                             </svg>
@@ -80,16 +79,14 @@
                         </div>
                     </td>
                     <td>
-                        <div tabindex="3" data-value="13" class="polygon">
-                            <!-- OK -->
+                        <div tabindex="3" data-value="13" data-role="OK" class="polygon">
                             <svg preserveAspectRatio="none" viewBox="0 0 100 100">
                                 <polygon points="0 0,100 0,100 100,0 100,0 0" opacity="1"></polygon>
                             </svg>
                         </div>
                     </td>
                     <td>
-                        <div tabindex="4" data-value="39" class="polygon">
-                            <!-- right -->
+                        <div tabindex="4" data-value="39" data-role="RIGHT" class="polygon">
                             <svg preserveAspectRatio="none" viewBox="0 0 100 100">
                                 <polygon points="0 0,100 50,0 100" opacity="1"></polygon>
                             </svg>
@@ -99,8 +96,7 @@
 
                 <tr>
                     <td>
-                        <div tabindex="3" data-value="8" class="polygon">
-                            <!-- OK -->
+                        <div tabindex="3" data-value="8" data-role="BACK" class="polygon">
                             <svg preserveAspectRatio="none" viewBox="0 0 100 100">
                                 <polygon points="25 0,75 0,75 75,25 75,25 0" opacity="1"></polygon>
                                 <text x="30" y="40" width="50" height="50">BACK</text>
@@ -108,8 +104,7 @@
                         </div>
                     </td>
                     <td>
-                        <div tabindex="5" data-value="40" class="polygon">
-                            <!-- down -->
+                        <div tabindex="5" data-value="40" data-role="DOWN" class="polygon">
                             <svg preserveAspectRatio="none" viewBox="0 0 100 100">
                                 <polygon points="0 0,100 0,50 100" opacity="1"></polygon>
                             </svg>
@@ -119,6 +114,8 @@
                 </tr>
             </table>
         </div>
+        -->
+
         <!--/.Panel 2-->
         <!--Panel 3-->
         <div class="tab-pane fade" id="settings" role="tabpanel">
