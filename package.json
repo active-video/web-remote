@@ -1,6 +1,6 @@
 {
   "name": "cloudtv-web-remote",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "NONE",
   "engines": {},
   "main": "server.js",
