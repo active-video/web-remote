@@ -112,11 +112,6 @@
       }
     },
 
-    cleanupListener: function(){
-
-
-    },
-
     listen: function(){
       if(recognition){
         this.stopListening();
@@ -140,6 +135,10 @@
 
     stopListening: function(){
       if(recognition){
+        recognition.removeEventListener('result', this.onSpeech);
+        recognition.removeEventListener('error', this.onSpeechError);
+        recognition.removeEventListener('speechend', this.onSpeechEnd);
+
         recognition.abort();
         recognition = null;
       }
