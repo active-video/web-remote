@@ -4,12 +4,15 @@
   };
   REMOTE.prototype = {
     devices: null,
-    listening: false,
     init: function () {
       this.spokenText = document.querySelector('#spokenText');
       this.microphone = document.querySelector('#microphone');
-      this.alternateMicrophone = document.querySelector('#alternate-microphone')
+      this.alternateMicrophone = document.querySelector('#alternate-microphone');
 
+
+      this.onSpeech = this.onSpeech.bind(this);
+      this.onSpeechError = this.onSpeechError.bind(this);
+      this.onSpeechEnd = this.onSpeechEnd.bind(this);
 
       this.bootstrap = this.bootstrap.bind(this);
       window.onmessage = this.onMessage.bind(this);
@@ -110,38 +113,36 @@
     },
 
     listen: function(){
-      if(!recognition && window.webkitSpeechRecognition) {
-        recognition = window.recognition = new webkitSpeechRecognition();
-        //$('#submit-text').hide();
-
-        recognition.interimResults = true;
-        recognition.continuous = false;
-        recognition.addEventListener('result', this.onSpeech.bind(this));
-        recognition.addEventListener('error', this.onSpeechError.bind(this));
-        recognition.addEventListener('speechend', this.onSpeechEnd.bind(this));
-
-
-        recognition.onresult = this.onSpeechEvent.bind(this);
-        recognition.onspeechstart = this.onSpeechEvent.bind(this);
-        recognition.onspeechend = this.onSpeechEvent.bind(this);
-        recognition.onerror = this.onSpeechEvent.bind(this);
-      }
-
-      if(this.listening) {
+      if(recognition){
         this.stopListening();
-      } else {
-        this.listening = true;
-        this.updateText('');
-        this.microphone.classList.add('active');
-        recognition.start();
+        return;
       }
+
+      recognition = window.recognition = new webkitSpeechRecognition();
+      //$('#submit-text').hide();
+
+      recognition.interimResults = true;
+      recognition.continuous = false;
+      recognition.addEventListener('result', this.onSpeech);
+      recognition.addEventListener('error', this.onSpeechError);
+      recognition.addEventListener('speechend', this.onSpeechEnd);
+
+
+      this.updateText('');
+      this.microphone.classList.add('active');
+      recognition.start();
     },
 
     stopListening: function(){
       if(recognition){
-        recognition.stop();
+        recognition.removeEventListener('result', this.onSpeech);
+        recognition.removeEventListener('error', this.onSpeechError);
+        recognition.removeEventListener('speechend', this.onSpeechEnd);
+
+        recognition.abort();
+        recognition = null;
       }
-      this.listening = false;
+
       this.microphone.classList.remove('active');
     },
 
@@ -190,14 +191,12 @@
 
     },
 
-    onSpeechBegin: function(){
-      this.listening = false;
-      this.microphone.classList.add('active');
-    },
-
     onSpeechEnd: function(){
-      this.listening = false;
-      this.microphone.classList.remove('active');
+      this.stopListening();
+
+      //Listen again
+      this.listen();
+
     },
 
     populateDeviceList: function () {
