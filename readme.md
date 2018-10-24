@@ -22,9 +22,40 @@ Creates a basic interface to listen for voice commands and send them to an HTML 
 
 ## Configuration
 
-Make sure that for the hostname where this is being hosted, that you have placed the SSL certificates inside of the `./ssl` directory (not required for localhost). 
+For this configuration, let's assume you've cloned this service `web-remote` into `/home/some-account`.
 
-The service can be configured to run using `pm2`. For example, if you clone this service in to /home/some-account, then create a file called `ecosystem.config.js` 
+### Developing
+
+```bash
+npm run dev
+#or to test SSL:
+#npm run devsecure
+```
+
+
+
+### SSL Certificate
+
+See [ssl/readme.md](ssl/readme.md) for how to generate the SSL certificate for use with ExpressJS.
+
+You must have placed
+
+- /home/some-account/ssl/webremote.key
+- /home/some-account/ssl/webremote.cert
+
+Example of using a symlink to point to the cert/key in a folder on your server:
+
+```bash
+cd /home/some-account/web-remote/ssl/
+ln -s /home/some-account/ssl/myhostname.key webremote.key 
+ln -s /home/some-account/ssl/myhostname.cert webremote.cert
+```
+
+
+
+### PM2
+
+The service can be configured to run using `pm2`. Create a file called `ecosystem.config.js` 
 
 **/home/some-account/ecosystem.config.js**
 
