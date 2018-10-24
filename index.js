@@ -1,9 +1,15 @@
-(function() {
+(function () {
   REMOTE = function () {
     this.init();
   };
   REMOTE.prototype = {
     devices: null,
+    startListeningTimer: null,
+
+    CONFIG: {
+      RESTART_DELAY: 1000
+    },
+
     init: function () {
       this.spokenText = document.querySelector('#spokenText');
       this.microphone = document.querySelector('#microphone');
@@ -13,6 +19,7 @@
       this.onSpeech = this.onSpeech.bind(this);
       this.onSpeechError = this.onSpeechError.bind(this);
       this.onSpeechEnd = this.onSpeechEnd.bind(this);
+      this.listen = this.listen.bind(this);
 
       this.bootstrap = this.bootstrap.bind(this);
       window.onmessage = this.onMessage.bind(this);
@@ -112,8 +119,10 @@
       }
     },
 
-    listen: function(){
-      if(recognition){
+    listen: function () {
+      this.startListeningTimer = null;
+
+      if (recognition) {
         this.stopListening();
         return;
       }
@@ -133,8 +142,16 @@
       recognition.start();
     },
 
-    stopListening: function(){
-      if(recognition){
+    restartListening: function () {
+      this.stopListening();
+
+      if(!this.startListeningTimer) {
+        this.startListeningTimer = setTimeout(this.listen, this.CONFIG.RESTART_DELAY);
+      }
+    },
+
+    stopListening: function () {
+      if (recognition) {
         recognition.removeEventListener('result', this.onSpeech);
         recognition.removeEventListener('error', this.onSpeechError);
         recognition.removeEventListener('speechend', this.onSpeechEnd);
@@ -146,43 +163,47 @@
       this.microphone.classList.remove('active');
     },
 
-    updateText: function(text, override) {
-      if(override) {
+    updateText: function (text, override) {
+      if (override) {
         this.spokenText.textContent = text;
       } else {
         this.spokenText.textContent += text;
       }
     },
 
-    onSpeechEvent: function(evt){
-        console.log("Speech Event: " + evt.type, evt);
+    onSpeechEvent: function (evt) {
+      console.log('Speech Event: ' + evt.type, evt);
     },
 
-    onSpeechError: function(evt) {
-      if(evt.error === 'network') {
+    onSpeechError: function (evt) {
+      if (evt.error === 'network') {
         this.spokenText.textContent = 'Sorry, but a network connection is required for VOICE support';
       }
     },
 
-    onSpeechRecognized: function(text){
+    onSpeechRecognized: function (text) {
+      console.log('onSpeechRecognized: %s', text);
       this.updateText(text, true); //override text value
-      remote.sendMessage({type: 'message', message: text});
+      remote.sendMessage({
+        type: 'message',
+        message: text
+      });
       setTimeout(this.updateText.bind(this, '', true), 1000);
       // this.stopListening();
     },
 
-    onSpeech: function(evt) {
-      console.log("onSpeech", evt.type, evt);
+    onSpeech: function (evt) {
+      console.log('onSpeech', evt.type, Array.from(evt.results).map(el => el[0].transcript).join(''));
 
       var text = '';
 
-      for(var i= evt.resultIndex; i < evt.results.length; i++) {
-        if(evt.results[i].isFinal) {
+      for (var i = evt.resultIndex; i < evt.results.length; i++) {
+        if (evt.results[i].isFinal) {
           this.onSpeechRecognized(evt.results[i][0].transcript);
           return;
 
         } else {
-          text += evt.results[i][0].transcript
+          text += evt.results[i][0].transcript;
         }
       }
 
@@ -191,11 +212,9 @@
 
     },
 
-    onSpeechEnd: function(){
-      this.stopListening();
-
-      //Listen again
-      this.listen();
+    onSpeechEnd: function () {
+      console.log('onSpeechEnd');
+      this.restartListening();
 
     },
 
@@ -223,10 +242,10 @@
 
     sendMessage: function (data) {
       if (!data.type) {
-        console.error("REMOTE::sendMessage(data) requires value for data.type");
+        console.error('REMOTE::sendMessage(data) requires value for data.type');
         return;
       } else if (!window.sendMessage) {
-        console.error("REMOTE::sendMessage(data) requires a cloudtv-remote-proxy, is 'npm run service' running?");
+        console.error('REMOTE::sendMessage(data) requires a cloudtv-remote-proxy, is \'npm run service\' running?');
         return;
       }
 
@@ -235,7 +254,7 @@
     },
 
     onMessage: function (data) {
-      console.log("Got message", data);
+      console.log('Got message', data);
     },
 
     setupRemoteButtons: function () {
@@ -266,7 +285,7 @@
   };
 
   var recognition;
-  var remote =  window.remote = new REMOTE();
+  var remote = window.remote = new REMOTE();
 
   $(document)
     .ready(remote.bootstrap);
