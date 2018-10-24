@@ -142,6 +142,7 @@
         recognition.abort();
         recognition = null;
       }
+
       this.microphone.classList.remove('active');
     },
 
@@ -192,8 +193,6 @@
 
     onSpeechEnd: function(){
       this.stopListening();
-      //this.listening = false;
-      //this.microphone.classList.remove('active');
 
       //Listen again
       this.listen();
